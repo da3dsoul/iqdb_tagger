@@ -12,6 +12,11 @@ import mechanicalsoup
 import structlog
 from bs4 import BeautifulSoup
 from PIL import Image
+try:
+    import lxml  # NOQA
+    LXML_INSTALLED = True
+except ImportError:
+    LXML_INSTALLED = False
 
 from iqdb_tagger import models, sha256
 from iqdb_tagger.__init__ import db_version
@@ -110,7 +115,11 @@ def get_page_result(image, url):
     Returns:
         HTML page from the result.
     """
-    br = mechanicalsoup.StatefulBrowser(soup_config={'features': 'lxml'})
+    if LXML_INSTALLED:
+        br = mechanicalsoup.StatefulBrowser(soup_config={'features': 'lxml'})
+    else:
+        br = mechanicalsoup.StatefulBrowser(
+            soup_config={'features': 'html.parser'})
     br.raise_on_404 = True
     br.open(url)
     html_form = br.select_form('form')

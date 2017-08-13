@@ -17,7 +17,6 @@ install_requires = [
     'click>=6.7',
     'Flask>=0.12.2',
     'funclog>=0.3.0',
-    'lxml>=3.8.0',
     'MechanicalSoup>=0.7.0',
     'peewee>=2.10.1',
     'structlog>=17.2.0',
@@ -45,6 +44,9 @@ setup(
     maintainer='Rachmadani Haryono',
     maintainer_email='foreturiga@gmail.com',
     install_requires=install_requires,
+    extras_require={
+        'lxml': ['lxml>=3.8.0', ],
+    },
     entry_points={
         'console_scripts': [
             'iqdb-tagger = iqdb_tagger.__main__:main',
